@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fake_statusbar" type="id"/>
+    <item name="main_container" type="id"/>
+    <item name="header_navigation" type="id"/>
+    <item name="drawer_layout" type="id"/>
+    <item name="navigation_view" type="id"/>
+    <item name="drawer_item_list" type="id"/>
+    <item name="drawer_card_container" type="id"/>
+    <item name="drawer_item_icon" type="id"/>
+    <item name="drawer_item_text" type="id"/>
+    <item name="drawer_divider" type="id"/>
+</resources>

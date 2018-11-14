@@ -1,0 +1,8 @@
+/*
+ * settings.gradle on AnkoNavigationDrawer
+ * Developed by Muhammad Utsman
+ * Last modified 11/14/18 6:37 AM
+ * Copyright (c) 2018 kucingapes
+ */
+
+include ':app', ':ankodrawer'
