@@ -46,7 +46,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
         super.onCreate(savedInstanceState)
         drawerAdapter = AnDrawerAdapter(this, this, itemDrawerNavigation).apply {
             anColorPrimary(R.color.colorPrimary)
-            setNavigationStyle(AnDrawer.STYLE.NEW_MATERIAL)
+            setNavigationStyle(AnDrawer.STYLE.GOOGLE_KEEP)
             setSelected(1)
         }
         frameLayout {
