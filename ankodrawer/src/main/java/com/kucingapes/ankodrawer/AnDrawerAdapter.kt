@@ -22,10 +22,14 @@ import com.kucingapes.ankodrawer.styleUi.DrawerUiDefault
 import com.kucingapes.ankodrawer.styleUi.DrawerUiKeep
 import com.kucingapes.ankodrawer.styleUi.DrawerUiMaterial
 import org.jetbrains.anko.*
+import android.support.v7.app.AppCompatDelegate
+
+
 
 class AnDrawerAdapter(private val context: AppCompatActivity,
                       private var items: MutableList<AnDrawerItem>,
                       private var listener: AnDrawerClickListener) : RecyclerView.Adapter<AnDrawerAdapter.Holder>() {
+
 
     private var selectedItem = 0
     private var navigationStyle = 0
@@ -148,8 +152,14 @@ class AnDrawerAdapter(private val context: AppCompatActivity,
             VISIBLE -> view.visibility = View.VISIBLE
         }
     }
+
+
     companion object {
         const val GONE = 0
         const val VISIBLE = 1
+
+        init {
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
+        }
     }
 }
