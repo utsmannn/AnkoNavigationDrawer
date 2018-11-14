@@ -44,7 +44,11 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        drawerAdapter = AnDrawerAdapter(this, itemDrawerNavigation, this)
+        drawerAdapter = AnDrawerAdapter(this, this, itemDrawerNavigation).apply {
+            anColorPrimary(R.color.colorPrimary)
+            setNavigationStyle(AnDrawer.STYLE.NEW_MATERIAL)
+            setSelected(1)
+        }
         frameLayout {
             anDrawerLayoutWithStatusBar(drawerAdapter)
         }
@@ -77,9 +81,9 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
             add(item5)
         }
 
-        drawerAdapter.setSelected(1)
-        drawerAdapter.setNavigationStyle(AnDrawer.STYLE.NEW_MATERIAL)
-        drawerAdapter.setColorTheme(R.color.colorPrimary)
+        //drawerAdapter.setSelected(1)
+        //drawerAdapter.setNavigationStyle(AnDrawer.STYLE.DEFAULT)
+        //drawerAdapter.setColorPrimary(R.color.colorPrimary)
     }
 
     class MainUi : AnkoComponent<ViewGroup> {

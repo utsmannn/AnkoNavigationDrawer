@@ -27,17 +27,17 @@ import android.support.v7.app.AppCompatDelegate
 
 
 class AnDrawerAdapter(private val context: AppCompatActivity,
-                      private var items: MutableList<AnDrawerItem>,
-                      private var listener: AnDrawerClickListener) : RecyclerView.Adapter<AnDrawerAdapter.Holder>() {
+                      private var listener: AnDrawerClickListener,
+                      private var items: MutableList<AnDrawerItem>) : RecyclerView.Adapter<AnDrawerAdapter.Holder>() {
 
 
     private var selectedItem = 0
     private var navigationStyle = 0
     private var colorTheme = AnDrawerUtils.fetchResourceColor(context.baseContext, R.attr.colorPrimary)
 
-    fun setSelected(selectedItem: Int) : Int {
-        this.selectedItem = selectedItem
-        return selectedItem
+    fun anColorPrimary(colorTheme: Int) : Int {
+        this.colorTheme = colorTheme
+        return colorTheme
     }
 
     fun setNavigationStyle(navigationStyle: Int) : Int {
@@ -45,9 +45,9 @@ class AnDrawerAdapter(private val context: AppCompatActivity,
         return navigationStyle
     }
 
-    fun setColorTheme(colorTheme: Int) : Int {
-        this.colorTheme = colorTheme
-        return colorTheme
+    fun setSelected(selectedItem: Int) : Int {
+        this.selectedItem = selectedItem
+        return selectedItem
     }
 
 
