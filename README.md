@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
         super.onCreate(savedInstanceState)
         
         // code your drawer
-        val drawer = AnDrawer(clickListener, colorDrawer)
+        val drawer = AnDrawer(this, R.color.colorPrimary)
         frameLayout { anDrawerLayoutWithToolbar(drawer) }
     }
 }
