@@ -7,6 +7,8 @@
 
 package com.kucingapes.ankodrawer
 
+import android.view.View
+
 class AnDrawerItem {
     internal var icon: Int = -1
     internal var title: String = ""
@@ -14,6 +16,8 @@ class AnDrawerItem {
     var identifier: Int = -1
     internal var tag: String = ""
     internal var focus: Boolean = true
+    internal var listener: View.OnClickListener? = null
+    internal var onClickListener: AnDrawerClickListener? = null
 
     constructor(title: String) {
         this.title = title

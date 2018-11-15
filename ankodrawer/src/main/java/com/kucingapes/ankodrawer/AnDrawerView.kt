@@ -9,23 +9,15 @@ package com.kucingapes.ankodrawer
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
 import android.view.*
 import org.jetbrains.anko.*
-import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.design.navigationView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.drawerLayout
-import android.R.attr.data
 import android.util.TypedValue
 import android.support.annotation.AttrRes
-import android.support.annotation.NonNull
 import android.support.annotation.ColorInt
-import android.support.v4.content.ContextCompat
-
 
 object AnDrawerView {
 

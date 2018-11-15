@@ -7,17 +7,6 @@
 
 package com.kucingapes.ankodrawer
 
-import android.os.Handler
-import android.support.v4.widget.DrawerLayout
-
 interface AnDrawerClickListener {
-
-    fun onDrawerClick(drawerLayout: DrawerLayout?, position: Int, anDrawerItem: AnDrawerItem) {
-        if (drawerLayout != null) {
-            Handler().postDelayed({
-                drawerLayout.closeDrawers()
-            }, 50)
-        }
-    }
-
+    fun onDrawerClick(identifier: Int) {}
 }

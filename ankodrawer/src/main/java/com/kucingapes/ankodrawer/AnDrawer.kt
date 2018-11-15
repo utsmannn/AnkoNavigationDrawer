@@ -10,6 +10,7 @@ package com.kucingapes.ankodrawer
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
@@ -89,7 +90,10 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
             if (!item.divider && item.focus) {
                 selectedItem = item.identifier
             }
-            listener.onDrawerClick(drawerLayout, position, item)
+            listener.onDrawerClick(item.identifier)
+            Handler().postDelayed({
+                drawerLayout.closeDrawers()
+            }, 50)
             notifyDataSetChanged()
         }
 

@@ -21,13 +21,14 @@ import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.themedToolbar
 import org.jetbrains.anko.design.coordinatorLayout
 
-class MainActivity : AppCompatActivity(), AnDrawerClickListener{
+class MainActivity : AppCompatActivity(), AnDrawerClickListener {
 
-    override fun onDrawerClick(drawerLayout: DrawerLayout?, position: Int, anDrawerItem: AnDrawerItem) {
-        super.onDrawerClick(drawerLayout, position, anDrawerItem)
-        when (anDrawerItem.identifier) {
-            1 -> toast("item 1")
-            2 -> toast("item 2")
+    override fun onDrawerClick(identifier: Int) {
+        super.onDrawerClick(identifier)
+        when (identifier) {
+            1 -> toast("wah")
+            2 -> toast("gile")
+            3 -> toast("lu")
         }
     }
 
