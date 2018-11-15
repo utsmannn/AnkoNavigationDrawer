@@ -8,13 +8,12 @@
 package com.kucingapes.ankodrawer
 
 class AnDrawerItem {
-    var icon: Int = -1
-    var title: String = ""
-    var divider: Boolean = false
+    internal var icon: Int = -1
+    internal var title: String = ""
+    internal var divider: Boolean = false
     var identifier: Int = -1
-    var tag: String = ""
-    var focus: Boolean = true
-    var isSelected: Boolean = false
+    internal var tag: String = ""
+    internal var focus: Boolean = true
 
     constructor(title: String) {
         this.title = title
@@ -41,11 +40,6 @@ class AnDrawerItem {
 
     fun setFocusable(focus: Boolean): AnDrawerItem {
         this.focus = focus
-        return this
-    }
-
-    fun isSelected(selectItem: Boolean) : AnDrawerItem {
-        this.isSelected = selectItem
         return this
     }
 

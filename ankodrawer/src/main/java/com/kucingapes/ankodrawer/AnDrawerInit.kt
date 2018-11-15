@@ -26,7 +26,7 @@ object AnDrawerInit {
         )
     }
 
-    fun withCustomToolbar(activity: AppCompatActivity, toolbar: Toolbar?) {
+    fun customToolbar(activity: AppCompatActivity, toolbar: Toolbar?) {
         hideStatusbar(activity)
         activity.setSupportActionBar(toolbar)
         toolbar?.setNavigationIcon(R.drawable.ic_menu)

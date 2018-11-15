@@ -19,6 +19,13 @@ import org.jetbrains.anko.custom.ankoView
 import org.jetbrains.anko.design.navigationView
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.drawerLayout
+import android.R.attr.data
+import android.util.TypedValue
+import android.support.annotation.AttrRes
+import android.support.annotation.NonNull
+import android.support.annotation.ColorInt
+import android.support.v4.content.ContextCompat
+
 
 object AnDrawerView {
 
@@ -51,11 +58,27 @@ object AnDrawerView {
         }
     }
 
-    fun ViewManager.anDrawerLayoutFakeStatusBar(anDrawer: AnDrawer) = drawerLayout {
+    @ColorInt
+    fun getThemeColor(
+        context: Context,
+        @AttrRes attributeColor: Int
+    ): Int {
+        val value = TypedValue()
+        context.theme.resolveAttribute(attributeColor, value, true)
+        return value.data
+    }
+
+    fun ViewManager.anDrawerLayoutWithToolbar(anDrawer: AnDrawer) = drawerLayout {
         id = R.id.drawer_layout
-        frameLayout {
-            id = R.id.main_container
-        }.lparams(matchParent, matchParent)
+        verticalLayout {
+            view {
+                backgroundColor = getThemeColor(context, R.attr.colorPrimaryDark)
+            }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
+
+            frameLayout {
+                id = R.id.main_container
+            }.lparams(matchParent, matchParent)
+        }
 
         navigationView {
             id = R.id.navigation_view

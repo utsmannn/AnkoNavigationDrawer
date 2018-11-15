@@ -15,7 +15,8 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
 import com.kucingapes.ankodrawer.*
-import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayoutFakeStatusBar
+import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayout
+import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayoutWithToolbar
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.themedToolbar
 import org.jetbrains.anko.design.coordinatorLayout
@@ -33,18 +34,21 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val drawer = AnDrawer(this, R.color.colorPrimary)
-        frameLayout { anDrawerLayoutFakeStatusBar(drawer) }
+        frameLayout { anDrawerLayoutWithToolbar(drawer) }
+        //frameLayout { anDrawerLayout(drawer) }
         AnDrawerInit.setupMainView(this, MainUi())
         AnDrawerInit.setupHeader(this, HeaderUi())
-        AnDrawerInit.withCustomToolbar(this, find(R.id.toolbar))
+        AnDrawerInit.customToolbar(this, find(R.id.toolbar))
+
 
         drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
         drawer.addItems().apply {
             val item1 = AnDrawerItem(R.drawable.ic_person, "Item 1").addIdentifier(1)
             val item2 = AnDrawerItem(R.drawable.ic_face, "Item 2").addIdentifier(2)
             val item3 = AnDrawerItem(R.drawable.ic_favorite, "Item 3").addIdentifier(3)
-            val item4 = AnDrawerItem(R.drawable.ic_train, "Item 4").addIdentifier(4)
+            val item4 = AnDrawerItem(R.drawable.ic_train, "Item 4").addIdentifier(4).setFocusable(false)
             val item5 = AnDrawerItem(R.drawable.ic_emoticon, "Item 5").addIdentifier(5)
+            val item6 = AnDrawerItem(R.drawable.ic_train, "Item 6").addIdentifier(6)
             val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
 
             add(divider)
@@ -54,31 +58,28 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
             add(item4)
             add(divider)
             add(item5)
-            drawer.setSelected(3)
+            add(item6)
+            drawer.setSelectedItem(3)
+
         }
 
     }
 
     class MainUi : AnkoComponent<ViewGroup> {
         override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
-            verticalLayout {
-                view {
-                    backgroundColorResource = R.color.colorPrimaryDark
-                }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
-                coordinatorLayout {
-                    themedToolbar(R.style.ThemeOverlay_AppCompat_Dark) {
-                        backgroundColorResource = R.color.colorPrimary
-                        id = R.id.toolbar
-                        title = context.getString(R.string.app_name)
-                    }.lparams(matchParent, dimenAttr(R.attr.actionBarSize))
-                }
+            coordinatorLayout {
+                themedToolbar(R.style.ThemeOverlay_AppCompat_Dark) {
+                    backgroundColorResource = R.color.colorPrimary
+                    id = R.id.toolbar
+                    title = context.getString(R.string.app_name)
+                }.lparams(matchParent, dimenAttr(R.attr.actionBarSize))
+
                 relativeLayout {
                     textView("MAIN VIEW").lparams { centerInParent() }
                 }.lparams(matchParent, matchParent)
             }
         }
     }
-
 
     class HeaderUi : AnkoComponent<ViewGroup> {
         override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {

@@ -39,13 +39,13 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
         return navigationStyle
     }
 
-    fun setSelected(selectedItem: Int): Int {
-        this.selectedItem = selectedItem
-        return selectedItem
-    }
-
     fun addItems(): MutableList<AnDrawerItem> {
         return items
+    }
+
+    fun setSelectedItem(selectedItem: Int): Int {
+        this.selectedItem = selectedItem
+        return selectedItem
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -86,72 +86,15 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
 
         val drawerLayout = (context as AppCompatActivity).find<DrawerLayout>(R.id.drawer_layout)
         containerItem.setOnClickListener {
-            if (item.focus) {
-                selectedItem = position
+            if (!item.divider && item.focus) {
+                selectedItem = item.identifier
             }
             listener.onDrawerClick(drawerLayout, position, item)
             notifyDataSetChanged()
         }
 
-        if (selectedItem == item.identifier) {
-            when (selectedItem) {
-                position -> {
-                    when (navigationStyle) {
-                        0, 1 -> {
-                            containerItem.setCardBackgroundColor(Color.parseColor("#201d1d1d"))
-                            textItem.textColorResource = colorPrimary
-                            iconItem.apply {
-                                setColorFilter(
-                                    ContextCompat.getColor(context, colorPrimary),
-                                    android.graphics.PorterDuff.Mode.SRC_ATOP
-                                )
-                            }
-                        }
-                        2 -> {
-                            val colorString = context.resources.getString(colorPrimary)
-                            val lastChar = colorString.substring(colorString.length - 6)
-                            val withAlpha = "#33$lastChar"
-                            containerItem.setCardBackgroundColor(Color.parseColor(withAlpha))
-                            textItem.textColor = Color.parseColor("#1d1d1d")
-                            iconItem.apply {
-                                setColorFilter(
-                                    Color.parseColor("#1d1d1d"),
-                                    android.graphics.PorterDuff.Mode.SRC_ATOP
-                                )
-                            }
-                        }
-                    }
-
-                }
-
-                else -> {
-                    when (navigationStyle) {
-                        0, 1 -> {
-                            textItem.textColor = Color.parseColor("#1d1d1d")
-                            iconItem.apply {
-                                setColorFilter(
-                                    Color.parseColor("#1d1d1d"),
-                                    android.graphics.PorterDuff.Mode.MULTIPLY
-                                )
-                            }
-                        }
-                        2 -> {
-                            textItem.textColor = Color.parseColor("#1d1d1d")
-                            iconItem.apply {
-                                setColorFilter(
-                                    Color.parseColor("#1d1d1d"),
-                                    android.graphics.PorterDuff.Mode.MULTIPLY
-                                )
-                            }
-                        }
-                    }
-                    containerItem.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-                }
-            }
-        }
-
-        /*when (selectedItem) {
-            position -> {
+        when (selectedItem) {
+            item.identifier -> {
                 when (navigationStyle) {
                     0, 1 -> {
                         containerItem.setCardBackgroundColor(Color.parseColor("#201d1d1d"))
@@ -203,7 +146,7 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
                 }
                 containerItem.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             }
-        }*/
+        }
     }
 
     class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView)
