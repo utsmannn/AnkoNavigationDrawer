@@ -8,6 +8,7 @@
 package com.kucingapes.ankodrawer
 
 import android.content.Context
+import android.graphics.drawable.BitmapDrawable
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -30,6 +31,30 @@ object AnDrawerInit {
         hideStatusbar(activity)
         activity.setSupportActionBar(toolbar)
         toolbar?.setNavigationIcon(R.drawable.ic_menu)
+        toolbar?.setNavigationOnClickListener {
+            openDrawer(activity)
+        }
+    }
+
+    fun customToolbar(activity: AppCompatActivity, toolbar: Toolbar?, icon: Int?) {
+        hideStatusbar(activity)
+        activity.setSupportActionBar(toolbar)
+
+        if (icon == null) toolbar?.setNavigationIcon(R.drawable.ic_menu)
+        else toolbar?.setNavigationIcon(icon)
+
+        toolbar?.setNavigationOnClickListener {
+            openDrawer(activity)
+        }
+    }
+
+    fun customToolbar(activity: AppCompatActivity, toolbar: Toolbar?, drawable: BitmapDrawable?) {
+        hideStatusbar(activity)
+        activity.setSupportActionBar(toolbar)
+
+        if (drawable == null) toolbar?.setNavigationIcon(R.drawable.ic_menu)
+        else toolbar?.navigationIcon = drawable
+
         toolbar?.setNavigationOnClickListener {
             openDrawer(activity)
         }

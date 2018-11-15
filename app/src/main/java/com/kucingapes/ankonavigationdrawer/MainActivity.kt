@@ -7,7 +7,10 @@
 
 package com.kucingapes.ankonavigationdrawer
 
+import android.graphics.Bitmap
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
@@ -17,9 +20,14 @@ import android.view.ViewGroup
 import com.kucingapes.ankodrawer.*
 import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayout
 import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayoutWithToolbar
+import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
 import org.jetbrains.anko.*
+import org.jetbrains.anko.appcompat.v7.navigationIconResource
 import org.jetbrains.anko.appcompat.v7.themedToolbar
 import org.jetbrains.anko.design.coordinatorLayout
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity(), AnDrawerClickListener {
 
@@ -34,14 +42,35 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val drawer = AnDrawer(this, R.color.colorPrimary)
+
+        val drawer = AnDrawer(this, R.color.customColor)
         frameLayout { anDrawerLayoutWithToolbar(drawer) }
         //frameLayout { anDrawerLayout(drawer) }
         AnDrawerInit.setupMainView(this, MainUi())
-        AnDrawerInit.setupHeader(this, HeaderUi())
-        AnDrawerInit.customToolbar(this, find(R.id.toolbar))
 
-        drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
+
+        Picasso.get()
+            .load(R.drawable.cat)
+            .transform(CropCircleTransformation())
+            .into(object : Target {
+                override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+
+                override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+
+                override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
+                    val drawable = BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, dip(30), dip(30), true))
+                    AnDrawerInit.customToolbar(this@MainActivity, this@MainActivity.find(R.id.toolbar), drawable)
+
+                }
+
+            })
+
+
+        AnDrawerInit.setupHeader(this, HeaderUi())
+
+
+        drawer.setNavigationStyle(AnDrawerView.STYLE.GOOGLE_KEEP)
+
         drawer.addItems().apply {
             val item1 = AnDrawerItem("Item 1")
                 .addIcon(R.drawable.ic_emoticon)
