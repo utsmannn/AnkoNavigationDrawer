@@ -1,7 +1,7 @@
 # Anko Navigation Drawer
 [ ![Download](https://api.bintray.com/packages/kucingapes/kucingapes/com.utsman.kucingapes/images/download.svg) ](https://bintray.com/kucingapes/kucingapes/com.utsman.kucingapes/_latestVersion)
 
-Easy implementation Navigation Drawer in Anko Layout support **New Material Design**, **multi styles** and **custom icon navigation**
+Easy implementation Navigation Drawer in [Anko Layout](https://github.com/Kotlin/anko/) support **New Material Design**, **multi styles** and **custom icon navigation**
 
 |*DEFAULT STYLE*|*NEW MATERIAL STYLE*|*GOOGLE KEEP STYLE*|
 |--|--|--|
@@ -258,6 +258,12 @@ Available style:
 Setup style
 ```kotlin
 drawer.setNavigationStyle(AnDrawerView.STYLE.GOOGLE_KEEP)
+```
+
+## Open and Close Drawer
+```kotlin
+AnDrawerInit.openDrawer(activity) // open drawer
+AnDrawerInit.closeDrawer(activity) // close drawer 
 ```
 
 ## Example
