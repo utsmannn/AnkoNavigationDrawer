@@ -19,13 +19,13 @@ class AnDrawerItem {
         this.title = title
     }
 
-    constructor(icon: Int, title: String) {
-        this.icon = icon
-        this.title = title
-    }
-
     constructor(divider: Boolean) {
         this.divider = divider
+    }
+
+    fun addIcon(icon: Int): AnDrawerItem {
+        this.icon = icon
+        return this
     }
 
     fun addIdentifier(identifier: Int): AnDrawerItem {

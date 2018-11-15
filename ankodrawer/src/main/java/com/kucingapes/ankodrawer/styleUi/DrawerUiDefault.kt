@@ -55,6 +55,7 @@ class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
                         ellipsize = TextUtils.TruncateAt.END
                     }.lparams(matchParent, wrapContent) {
                         leftMargin = dip(24)
+                        rightMargin = dip(12)
                         gravity = Gravity.CENTER_VERTICAL
                     }
                 }.lparams(matchParent, matchParent) {

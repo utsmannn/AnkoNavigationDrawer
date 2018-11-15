@@ -40,15 +40,33 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
         AnDrawerInit.setupHeader(this, HeaderUi())
         AnDrawerInit.customToolbar(this, find(R.id.toolbar))
 
-
         drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
         drawer.addItems().apply {
-            val item1 = AnDrawerItem(R.drawable.ic_person, "Item 1").addIdentifier(1)
-            val item2 = AnDrawerItem(R.drawable.ic_face, "Item 2").addIdentifier(2)
-            val item3 = AnDrawerItem(R.drawable.ic_favorite, "Item 3").addIdentifier(3)
-            val item4 = AnDrawerItem(R.drawable.ic_train, "Item 4").addIdentifier(4).setFocusable(false)
-            val item5 = AnDrawerItem(R.drawable.ic_emoticon, "Item 5").addIdentifier(5)
-            val item6 = AnDrawerItem(R.drawable.ic_train, "Item 6").addIdentifier(6)
+            val item1 = AnDrawerItem("Item 1")
+                .addIcon(R.drawable.ic_emoticon)
+                .addIdentifier(1)
+
+            val item2 = AnDrawerItem("Item 2")
+                .addIcon(R.drawable.ic_face)
+                .addIdentifier(2)
+
+            val item3 = AnDrawerItem("Item 3")
+                .addIcon(R.drawable.ic_favorite)
+                .addIdentifier(3)
+
+            val item4 = AnDrawerItem("Item 4")
+                .addIcon(R.drawable.ic_person)
+                .addIdentifier(4)
+                .setFocusable(false)
+
+            val item5 = AnDrawerItem("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua")
+                .addIcon(R.drawable.ic_emoticon)
+                .addIdentifier(5)
+
+            val item6 = AnDrawerItem("Item 6")
+                .addIcon(R.drawable.ic_favorite)
+                .addIdentifier(6)
+
             val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
 
             add(divider)
