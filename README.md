@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
 ```
 
 ### 3. Add MainUI class
-- **Dont apply MainUI with ```setContentView```**
+- **Don't apply MainUI with ```MainUI().setContentView(this)```**
 - **Extend MainUI with ```AnkoComponent<ViewGroup>```**
 
 Example
