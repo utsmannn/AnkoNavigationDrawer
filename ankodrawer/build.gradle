@@ -12,14 +12,14 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 ext {
-    bintrayRepo = "anko-navigation-drawer"
-    bintrayName = "com.utsman.anko-navigation-drawer"
+    bintrayRepo = "kucingapes"
+    bintrayName = "com.utsman.kucingapes"
 
     libraryName = 'ankodrawer'
 
-    publishedGroupId = 'com.utsman.anko-navigation-drawer'
+    publishedGroupId = 'com.utsman.kucingapes'
     artifact = 'ankodrawer'
-    libraryVersion = '0.1.2'
+    libraryVersion = '0.1.4'
 
     libraryDescription = 'Easy implementation navigation drawer with styles in Anko'
     siteUrl = 'https://github.com/kucingapes/AnkoNavigationDrawer'

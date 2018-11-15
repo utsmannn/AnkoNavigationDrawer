@@ -14,25 +14,13 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.ViewGroup
-import com.kucingapes.ankodrawer.AnDrawer
-import com.kucingapes.ankodrawer.AnDrawerAdapter
-import com.kucingapes.ankodrawer.AnDrawerClickListener
-import com.kucingapes.ankodrawer.AnDrawerItem
-import com.kucingapes.ankodrawer.AnDrawer.anDrawerLayoutWithStatusBar
-import com.kucingapes.ankodrawer.AnDrawer.anGetStatusBarHeight
-import com.kucingapes.ankodrawer.AnDrawer.anSetupHeader
-import com.kucingapes.ankodrawer.AnDrawer.anSetupMainView
-import com.kucingapes.ankodrawer.AnDrawer.anWithCustomToolbar
+import com.kucingapes.ankodrawer.*
+import com.kucingapes.ankodrawer.AnDrawerView.anDrawerLayoutFakeStatusBar
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.themedToolbar
 import org.jetbrains.anko.design.coordinatorLayout
 
 class MainActivity : AppCompatActivity(), AnDrawerClickListener{
-
-    private lateinit var drawerAdapter: AnDrawerAdapter
-    private var itemDrawerNavigation: MutableList<AnDrawerItem> = mutableListOf()
-
-    private lateinit var toolbar: Toolbar
 
     override fun onDrawerClick(drawerLayout: DrawerLayout?, position: Int, anDrawerItem: AnDrawerItem) {
         super.onDrawerClick(drawerLayout, position, anDrawerItem)
@@ -44,46 +32,30 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        drawerAdapter = AnDrawerAdapter(this, this, itemDrawerNavigation).apply {
-            anColorPrimary(R.color.colorPrimary)
-            setNavigationStyle(AnDrawer.STYLE.GOOGLE_KEEP)
-            setSelected(1)
-        }
-        frameLayout {
-            anDrawerLayoutWithStatusBar(drawerAdapter)
-        }
-        anSetupMainView(this, MainUi())
-        anSetupHeader(this, HeaderUi())
+        val drawer = AnDrawer(this, R.color.colorPrimary)
+        frameLayout { anDrawerLayoutFakeStatusBar(drawer) }
+        AnDrawerInit.setupMainView(this, MainUi())
+        AnDrawerInit.setupHeader(this, HeaderUi())
+        AnDrawerInit.withCustomToolbar(this, find(R.id.toolbar))
 
-        toolbar = find(R.id.toolbar)
-        anWithCustomToolbar(this, toolbar)
+        drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
+        drawer.addItems().apply {
+            val item1 = AnDrawerItem(R.drawable.ic_person, "Item 1").addIdentifier(1)
+            val item2 = AnDrawerItem(R.drawable.ic_face, "Item 2").addIdentifier(2)
+            val item3 = AnDrawerItem(R.drawable.ic_favorite, "Item 3").addIdentifier(3)
+            val item4 = AnDrawerItem(R.drawable.ic_train, "Item 4").addIdentifier(4)
+            val item5 = AnDrawerItem(R.drawable.ic_emoticon, "Item 5").addIdentifier(5)
+            val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
 
-        setupDrawer()
-
-
-    }
-
-    private fun setupDrawer() {
-        val item1 = AnDrawerItem(R.drawable.ic_person, "Item 1").addIdentifier(1)
-        val item2 = AnDrawerItem(R.drawable.ic_face, "Item 2").addIdentifier(2)
-        val item3 = AnDrawerItem(R.drawable.ic_favorite, "Item 3").addIdentifier(3)
-        val item4 = AnDrawerItem(R.drawable.ic_train, "Item 4").addIdentifier(4)
-        val item5 = AnDrawerItem(R.drawable.ic_emoticon, "Item 5").addIdentifier(5)
-
-        val dividerDrawer = AnDrawerItem(AnDrawerItem.DIVIDER)
-        itemDrawerNavigation.apply {
-            add(dividerDrawer)
+            add(divider)
             add(item1)
             add(item2)
             add(item3)
             add(item4)
-            add(dividerDrawer)
+            add(divider)
             add(item5)
         }
 
-        //drawerAdapter.setSelected(1)
-        //drawerAdapter.setNavigationStyle(AnDrawer.STYLE.DEFAULT)
-        //drawerAdapter.setColorPrimary(R.color.colorPrimary)
     }
 
     class MainUi : AnkoComponent<ViewGroup> {
@@ -91,7 +63,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
             verticalLayout {
                 view {
                     backgroundColorResource = R.color.colorPrimaryDark
-                }.lparams(matchParent, anGetStatusBarHeight(context))
+                }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
                 coordinatorLayout {
                     themedToolbar(R.style.ThemeOverlay_AppCompat_Dark) {
                         backgroundColorResource = R.color.colorPrimary
@@ -105,6 +77,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
             }
         }
     }
+
 
     class HeaderUi : AnkoComponent<ViewGroup> {
         override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {

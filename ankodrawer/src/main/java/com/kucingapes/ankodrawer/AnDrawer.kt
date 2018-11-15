@@ -1,129 +1,169 @@
 /*
- * AnDrawer.kt on AnkoNavigationDrawer
+ * AnDrawerAdapterer.kt on AnkoNavigationDrawer
  * Developed by Muhammad Utsman
- * Last modified 11/14/18 6:48 AM
+ * Last modified 11/14/18 5:22 AM
  * Copyright (c) 2018 kucingapes
  */
 
 package com.kucingapes.ankodrawer
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.Toolbar
-import android.view.*
+import android.support.v7.widget.CardView
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import com.kucingapes.ankodrawer.styleUi.DrawerUiDefault
+import com.kucingapes.ankodrawer.styleUi.DrawerUiKeep
+import com.kucingapes.ankodrawer.styleUi.DrawerUiMaterial
 import org.jetbrains.anko.*
-import org.jetbrains.anko.design.navigationView
-import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.drawerLayout
+import android.support.v7.app.AppCompatDelegate
 
-object AnDrawer {
+class AnDrawer(private val listener: AnDrawerClickListener, private val colorPrimary: Int) :
+    RecyclerView.Adapter<AnDrawer.Holder>() {
 
-    object STYLE {
-        const val DEFAULT = 0
-        const val NEW_MATERIAL = 1
-        const val GOOGLE_KEEP = 2
+    private lateinit var context: Context
+    private val items: MutableList<AnDrawerItem> = mutableListOf()
+
+    private var selectedItem = 0
+    private var navigationStyle = 0
+
+    fun setNavigationStyle(navigationStyle: Int): Int {
+        this.navigationStyle = navigationStyle
+        return navigationStyle
     }
 
-    private fun hideStatusbar(context: AppCompatActivity) {
-        context.window.setFlags(
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        )
+    fun setSelected(selectedItem: Int): Int {
+        this.selectedItem = selectedItem
+        return selectedItem
     }
 
-    fun anWithCustomToolbar(activity: AppCompatActivity, toolbar: Toolbar?) {
-        hideStatusbar(activity)
-        activity.setSupportActionBar(toolbar)
-        toolbar?.setNavigationIcon(R.drawable.ic_menu)
-        toolbar?.setNavigationOnClickListener {
-            anOpenDrawer(activity)
+    fun addItems(): MutableList<AnDrawerItem> {
+        return items
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        context = parent.context
+        val view = when (navigationStyle) {
+            0 -> DrawerUiDefault(colorPrimary).createView(AnkoContext.create(context, parent))
+            1 -> DrawerUiMaterial(colorPrimary).createView(AnkoContext.create(context, parent))
+            else -> DrawerUiKeep(colorPrimary).createView(AnkoContext.create(context, parent))
         }
+
+        return Holder(view)
     }
 
-    fun anSetupMainView(context: AppCompatActivity, ui: AnkoComponent<ViewGroup>) {
-        val rootView = context.find(R.id.main_container) as ViewGroup
-        val mainView = ui.createView(AnkoContext.create(rootView.context, rootView))
-        rootView.addView(mainView)
-    }
+    override fun getItemCount(): Int = items.size
 
-    fun anSetupHeader(context: AppCompatActivity, ui: AnkoComponent<ViewGroup>) {
-        val view = context.find(R.id.header_navigation) as ViewGroup
-        val header = ui.createView(AnkoContext.create(view.context, view))
-        view.addView(header)
-    }
+    override fun onBindViewHolder(holder: Holder, @SuppressLint("RecyclerView") position: Int) {
+        val item = items[position]
 
-    fun anOpenDrawer(context: AppCompatActivity) {
-        val drawer = context.find(R.id.drawer_layout) as DrawerLayout
-        drawer.openDrawer(Gravity.START)
-    }
+        val containerItem: CardView = holder.itemView.find(R.id.drawer_card_container)
+        val iconItem: ImageView = holder.itemView.find(R.id.drawer_item_icon)
+        val textItem: TextView = holder.itemView.find(R.id.drawer_item_text)
+        val divider: View = holder.itemView.find(R.id.drawer_divider)
 
-    fun anCloseDrawer(context: AppCompatActivity) {
-        val drawer = context.find(R.id.drawer_layout) as DrawerLayout
-        if (drawer.isDrawerOpen(Gravity.START)) {
-            drawer.closeDrawer(Gravity.START)
+        if (item.divider) {
+            visibility(containerItem, GONE)
+            visibility(iconItem, GONE)
+            visibility(textItem, GONE)
+            visibility(divider, VISIBLE)
+        } else {
+            visibility(containerItem, VISIBLE)
+            visibility(iconItem, VISIBLE)
+            visibility(textItem, VISIBLE)
+            visibility(divider, GONE)
         }
-    }
 
-    fun anGetStatusBarHeight(context: Context): Int {
-        var result = 0
-        val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
-        if (resourceId > 0) {
-            result = context.resources.getDimensionPixelSize(resourceId)
-        }
-        return result
-    }
+        iconItem.setImageResource(item.icon)
+        textItem.text = item.title
 
-    fun ViewManager.anDrawerLayout(anDrawerAdapter: AnDrawerAdapter) = drawerLayout {
-        id = R.id.drawer_layout
-        frameLayout {
-            id = R.id.main_container
-        }.lparams(matchParent, matchParent)
-        navigationView {
-            id = R.id.navigation_view
-            verticalLayout {
-                frameLayout {
-                    id = R.id.header_navigation
-                }.lparams(matchParent, wrapContent)
-                recyclerView {
-                    lparams(matchParent, matchParent)
-                    id = R.id.drawer_item_list
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = anDrawerAdapter
-                }
+        val drawerLayout = (context as AppCompatActivity).find<DrawerLayout>(R.id.drawer_layout)
+        containerItem.setOnClickListener {
+            if (item.focus) {
+                selectedItem = position
             }
-        }.lparams(matchParent, matchParent) {
-            gravity = Gravity.START
+            listener.onDrawerClick(drawerLayout, position, item)
+            notifyDataSetChanged()
+        }
+
+        when (selectedItem) {
+            position -> {
+                when (navigationStyle) {
+                    0, 1 -> {
+                        containerItem.setCardBackgroundColor(Color.parseColor("#201d1d1d"))
+                        textItem.textColorResource = colorPrimary
+                        iconItem.apply {
+                            setColorFilter(
+                                ContextCompat.getColor(context, colorPrimary),
+                                android.graphics.PorterDuff.Mode.SRC_ATOP
+                            )
+                        }
+                    }
+                    2 -> {
+                        val colorString = context.resources.getString(colorPrimary)
+                        val lastChar = colorString.substring(colorString.length - 6)
+                        val withAlpha = "#33$lastChar"
+                        containerItem.setCardBackgroundColor(Color.parseColor(withAlpha))
+                        textItem.textColor = Color.parseColor("#1d1d1d")
+                        iconItem.apply {
+                            setColorFilter(
+                                Color.parseColor("#1d1d1d"),
+                                android.graphics.PorterDuff.Mode.SRC_ATOP
+                            )
+                        }
+                    }
+                }
+
+            }
+
+            else -> {
+                when (navigationStyle) {
+                    0, 1 -> {
+                        textItem.textColor = Color.parseColor("#1d1d1d")
+                        iconItem.apply {
+                            setColorFilter(
+                                Color.parseColor("#1d1d1d"),
+                                android.graphics.PorterDuff.Mode.MULTIPLY
+                            )
+                        }
+                    }
+                    2 -> {
+                        textItem.textColor = Color.parseColor("#1d1d1d")
+                        iconItem.apply {
+                            setColorFilter(
+                                Color.parseColor("#1d1d1d"),
+                                android.graphics.PorterDuff.Mode.MULTIPLY
+                            )
+                        }
+                    }
+                }
+                containerItem.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+            }
         }
     }
 
-    fun ViewManager.anDrawerLayoutWithStatusBar(anDrawerAdapter: AnDrawerAdapter) = drawerLayout {
-        id = R.id.drawer_layout
-        frameLayout {
-            id = R.id.main_container
-        }.lparams(matchParent, matchParent)
-        navigationView {
-            id = R.id.navigation_view
-            verticalLayout {
-                relativeLayout {
-                    frameLayout {
-                        id = R.id.header_navigation
-                    }.lparams(matchParent, wrapContent)
-                    view {
-                        backgroundColor = Color.parseColor("#20000000")
-                    }.lparams(matchParent, anGetStatusBarHeight(context))
-                }
-                recyclerView {
-                    lparams(matchParent, matchParent)
-                    id = R.id.drawer_item_list
-                    layoutManager = LinearLayoutManager(context)
-                    adapter = anDrawerAdapter
-                }
-            }
-        }.lparams(matchParent, matchParent) {
-            gravity = Gravity.START
+    class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView)
+
+    fun visibility(view: View, visibility: Int) {
+        when (visibility) {
+            GONE -> view.visibility = View.GONE
+            VISIBLE -> view.visibility = View.VISIBLE
+        }
+    }
+
+    companion object {
+        const val GONE = 0
+        const val VISIBLE = 1
+
+        init {
+            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         }
     }
 }
