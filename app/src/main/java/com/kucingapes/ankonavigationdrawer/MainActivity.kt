@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener{
             add(item4)
             add(divider)
             add(item5)
+            drawer.setSelected(3)
         }
 
     }

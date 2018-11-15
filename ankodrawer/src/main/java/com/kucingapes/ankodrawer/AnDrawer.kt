@@ -31,7 +31,7 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
     private lateinit var context: Context
     private val items: MutableList<AnDrawerItem> = mutableListOf()
 
-    private var selectedItem = 0
+    private var selectedItem = 1
     private var navigationStyle = 0
 
     fun setNavigationStyle(navigationStyle: Int): Int {
@@ -93,7 +93,64 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
             notifyDataSetChanged()
         }
 
-        when (selectedItem) {
+        if (selectedItem == item.identifier) {
+            when (selectedItem) {
+                position -> {
+                    when (navigationStyle) {
+                        0, 1 -> {
+                            containerItem.setCardBackgroundColor(Color.parseColor("#201d1d1d"))
+                            textItem.textColorResource = colorPrimary
+                            iconItem.apply {
+                                setColorFilter(
+                                    ContextCompat.getColor(context, colorPrimary),
+                                    android.graphics.PorterDuff.Mode.SRC_ATOP
+                                )
+                            }
+                        }
+                        2 -> {
+                            val colorString = context.resources.getString(colorPrimary)
+                            val lastChar = colorString.substring(colorString.length - 6)
+                            val withAlpha = "#33$lastChar"
+                            containerItem.setCardBackgroundColor(Color.parseColor(withAlpha))
+                            textItem.textColor = Color.parseColor("#1d1d1d")
+                            iconItem.apply {
+                                setColorFilter(
+                                    Color.parseColor("#1d1d1d"),
+                                    android.graphics.PorterDuff.Mode.SRC_ATOP
+                                )
+                            }
+                        }
+                    }
+
+                }
+
+                else -> {
+                    when (navigationStyle) {
+                        0, 1 -> {
+                            textItem.textColor = Color.parseColor("#1d1d1d")
+                            iconItem.apply {
+                                setColorFilter(
+                                    Color.parseColor("#1d1d1d"),
+                                    android.graphics.PorterDuff.Mode.MULTIPLY
+                                )
+                            }
+                        }
+                        2 -> {
+                            textItem.textColor = Color.parseColor("#1d1d1d")
+                            iconItem.apply {
+                                setColorFilter(
+                                    Color.parseColor("#1d1d1d"),
+                                    android.graphics.PorterDuff.Mode.MULTIPLY
+                                )
+                            }
+                        }
+                    }
+                    containerItem.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+                }
+            }
+        }
+
+        /*when (selectedItem) {
             position -> {
                 when (navigationStyle) {
                     0, 1 -> {
@@ -146,7 +203,7 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
                 }
                 containerItem.setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
             }
-        }
+        }*/
     }
 
     class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView)

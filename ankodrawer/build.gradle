@@ -19,7 +19,7 @@ ext {
 
     publishedGroupId = 'com.utsman.kucingapes'
     artifact = 'ankodrawer'
-    libraryVersion = '0.1.4'
+    libraryVersion = '0.1.5'
 
     libraryDescription = 'Easy implementation navigation drawer with styles in Anko'
     siteUrl = 'https://github.com/kucingapes/AnkoNavigationDrawer'
