@@ -10,7 +10,7 @@ Easy implementation Navigation Drawer in [Anko Layout](https://github.com/Kotlin
 ## SETUP
 ### 1. Add gradle dependency
 ```gradle
-implementation 'com.utsman.kucingapes:ankodrawer:$latest_version'
+implementation 'com.utsman.kucingapes:ankodrawer:0.2.2'
 
 //required anko libraries
 implementation "org.jetbrains.anko:anko:$anko_version"
