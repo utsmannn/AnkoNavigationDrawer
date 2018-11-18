@@ -10,7 +10,7 @@ Easy implementation Navigation Drawer in [Anko Layout](https://github.com/Kotlin
 ## SETUP
 ### 1. Add gradle dependency
 ```gradle
-implementation 'com.utsman.kucingapes:ankodrawer:0.2.2'
+implementation 'com.utsman.kucingapes:ankodrawer:0.2.4'
 
 //required anko libraries
 implementation "org.jetbrains.anko:anko:$anko_version"
@@ -60,6 +60,75 @@ Add after ```frameLayout { anDrawerLayoutWithToolbar(drawer) }```
 
 ```kotlin
 AnDrawerInit.setupMainView(this, MainUi())
+```
+
+## Items Navigation
+**Simple**
+```kotlin
+val item = AnDrawerItem("Title item")
+drawer.addItems().add(item)
+```
+
+**Divider**
+```kotlin
+val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
+drawer.addItems().add(divider)
+```
+
+### Optional <br>
+**- Add icon (very recommended)**
+```kotlin
+val item = AnDrawerItem("Title item").addIcon(R.drawable.ic_face)
+```
+
+**- Add identifier (very recommended)**
+```kotlin
+val item = AnDrawerItem("Title item").addIdentifier(1)
+```
+
+**- Disable focus**<br>
+When item disable focus, item can't be highlight on click, suitable with intent
+```kotlin
+val item = AnDrawerItem("Title item").setFocusable(false)
+```
+
+**- Selected item**<br>
+Select item on first launch app, need identifier on item
+```kotlin
+drawer.setSelectedItem(identifier)
+```
+
+Example
+```kotlin
+drawer.addItems().apply {
+    val item1 = AnDrawerItem("Item 1")
+        .addIcon(R.drawable.ic_emoticon)
+        .addIdentifier(1)
+
+    val item2 = AnDrawerItem("Item 2")
+        .addIcon(R.drawable.ic_face)
+        .addIdentifier(2)
+        
+    val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
+    
+    add(divider)
+    add(item1)
+    add(item2)
+    drawer.setSelectedItem(2)
+}
+```
+
+## Item Clicked
+Override function ```onDrawerClick``` from ```AnDrawerClickListener``` and setup click listener with identifier item
+```kotlin
+override fun onDrawerClick(identifier: Int) {
+    super.onDrawerClick(identifier)
+    when (identifier) {
+        1 -> toast("wah")
+        2 -> toast("gile")
+        3 -> toast("lu")
+    }
+}
 ```
 
 ## Custom Toolbar (very recommended)
@@ -157,75 +226,6 @@ Picasso.get()
 |![](https://image.ibb.co/ivGXS0/image.png)|![](https://image.ibb.co/kZJhuf/image.png)|![](https://image.ibb.co/jRFLEf/image.png)|
 
 
-## Items Navigation
-**Simple**
-```kotlin
-val item = AnDrawerItem("Title item")
-drawer.addItems().add(item)
-```
-
-**Divider**
-```kotlin
-val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
-drawer.addItems().add(divider)
-```
-
-### Optional <br>
-**- Add icon (very recommended)**
-```kotlin
-val item = AnDrawerItem("Title item").addIcon(R.drawable.ic_face)
-```
-
-**- Add identifier (very recommended)**
-```kotlin
-val item = AnDrawerItem("Title item").addIdentifier(1)
-```
-
-**- Disable focus**<br>
-When item disable focus, item can't be highlight on click, suitable with intent
-```kotlin
-val item = AnDrawerItem("Title item").setFocusable(false)
-```
-
-**- Selected item**<br>
-Select item on first launch app, need identifier on item
-```kotlin
-drawer.setSelectedItem(identifier)
-```
-
-Example
-```kotlin
-drawer.addItems().apply {
-    val item1 = AnDrawerItem("Item 1")
-        .addIcon(R.drawable.ic_emoticon)
-        .addIdentifier(1)
-
-    val item2 = AnDrawerItem("Item 2")
-        .addIcon(R.drawable.ic_face)
-        .addIdentifier(2)
-        
-    val divider = AnDrawerItem(AnDrawerItem.DIVIDER)
-    
-    add(divider)
-    add(item1)
-    add(item2)
-    drawer.setSelectedItem(2)
-}
-```
-
-## Item Clicked
-Override function ```onDrawerClick``` from ```AnDrawerClickListener``` and setup click listener with identifier item
-```kotlin
-override fun onDrawerClick(identifier: Int) {
-    super.onDrawerClick(identifier)
-    when (identifier) {
-        1 -> toast("wah")
-        2 -> toast("gile")
-        3 -> toast("lu")
-    }
-}
-```
-
 ## Header Navigation (optional)
 You need anko class header with extend **```AnkoComponent<ViewGroup>```**, and setup with
 ```kotlin
@@ -264,6 +264,16 @@ drawer.setNavigationStyle(AnDrawerView.STYLE.GOOGLE_KEEP)
 ```kotlin
 AnDrawerInit.openDrawer(activity) // open drawer
 AnDrawerInit.closeDrawer(activity) // close drawer 
+```
+
+## Drawer StatusBar Color
+```kotlin
+drawer.setDrawerStatusBar(int_color)
+```
+
+## Drawer Custom Font
+```kotlin
+drawer.setFont("fonts/GoogleSans-Medium.ttf") // font from assets
 ```
 
 ## Example
