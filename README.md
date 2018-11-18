@@ -1,7 +1,7 @@
 # Anko Navigation Drawer
 [ ![Download](https://api.bintray.com/packages/kucingapes/kucingapes/com.utsman.kucingapes/images/download.svg) ](https://bintray.com/kucingapes/kucingapes/com.utsman.kucingapes/_latestVersion)
 
-Easy implementation Navigation Drawer in [Anko Layout](https://github.com/Kotlin/anko/) support **New Material Design**, **multi styles** and **custom icon/drawable navigation**
+Easy implementation Navigation Drawer in [Anko Layout](https://github.com/Kotlin/anko/) support **New Material Design**, **multi styles**, **custom icon/drawable navigation** and **custom font**.
 
 |*DEFAULT STYLE*|*NEW MATERIAL STYLE*|*GOOGLE KEEP STYLE*|
 |--|--|--|
