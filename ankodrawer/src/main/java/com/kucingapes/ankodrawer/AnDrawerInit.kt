@@ -7,12 +7,16 @@
 
 package com.kucingapes.ankodrawer
 
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import org.jetbrains.anko.AnkoComponent
@@ -84,7 +88,16 @@ object AnDrawerInit {
         }
     }
 
-    fun anGetStatusBarHeight(context: Context): Int {
+    fun setLightStatusBar(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            var flags = activity.window.decorView.systemUiVisibility
+            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            activity.window.decorView.systemUiVisibility = flags
+            activity.window.statusBarColor = Color.WHITE
+        }
+    }
+
+    internal fun anGetStatusBarHeight(context: Context): Int {
         var result = 0
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
         if (resourceId > 0) {

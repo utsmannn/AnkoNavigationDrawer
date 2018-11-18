@@ -1,7 +1,7 @@
 /*
- * DrawerUiDefault.kt on AnkoNavigationDrawer
+ * DrawerUiKeepFont.kt on AnkoNavigationDrawer
  * Developed by Muhammad Utsman
- * Last modified 11/14/18 7:01 AM
+ * Last modified 11/17/18 4:19 AM
  * Copyright (c) 2018 kucingapes
  */
 
@@ -19,14 +19,18 @@ import com.kucingapes.ankodrawer.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
-class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
+class DrawerUiKeepFont(private val colorTheme: Int, private var assetFont: String) : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
         relativeLayout {
             cardView {
-                lparams(matchParent, dip(48))
+                lparams(matchParent, wrapContent) {
+                    leftMargin = dip(-25)
+                    rightMargin = dip(15)
+
+                }
                 cardElevation = 0f
 
-                radius = 0f
+                radius = 50f
                 id = R.id.drawer_card_container
                 setCardBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
                 AnDrawerUtils.rippleThis(
@@ -42,7 +46,7 @@ class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
                             android.graphics.PorterDuff.Mode.MULTIPLY)
 
                     }.lparams(dip(25), dip(25)) {
-                        margin = dip(6)
+                        margin = dip(12)
                         gravity = Gravity.CENTER_VERTICAL
                     }
 
@@ -50,17 +54,17 @@ class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
                         id = R.id.drawer_item_text
                         AnDrawerUtils.materialText(this)
                         typeface = Typeface.DEFAULT_BOLD
-                        //typeface = Typeface.createFromAsset(assets, "")
+                        typeface = Typeface.createFromAsset(assets, assetFont)
                         textColorResource = colorTheme
                         maxLines = 1
                         ellipsize = TextUtils.TruncateAt.END
                     }.lparams(matchParent, wrapContent) {
-                        leftMargin = dip(24)
+                        leftMargin = dip(12)
                         rightMargin = dip(12)
                         gravity = Gravity.CENTER_VERTICAL
                     }
-                }.lparams(matchParent, matchParent) {
-                    leftMargin = dip(6)
+                }.lparams(matchParent, wrapContent) {
+                    leftMargin = dip(25)
                 }
             }
 

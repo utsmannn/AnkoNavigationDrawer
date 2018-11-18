@@ -20,11 +20,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.kucingapes.ankodrawer.styleUi.DrawerUiDefault
-import com.kucingapes.ankodrawer.styleUi.DrawerUiKeep
-import com.kucingapes.ankodrawer.styleUi.DrawerUiMaterial
 import org.jetbrains.anko.*
 import android.support.v7.app.AppCompatDelegate
+import com.kucingapes.ankodrawer.styleUi.*
 
 class AnDrawer(private val listener: AnDrawerClickListener, private val colorPrimary: Int) :
     RecyclerView.Adapter<AnDrawer.Holder>() {
@@ -34,6 +32,7 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
 
     private var selectedItem = 1
     private var navigationStyle = 0
+    private var assetFont = ""
 
     fun setNavigationStyle(navigationStyle: Int): Int {
         this.navigationStyle = navigationStyle
@@ -49,12 +48,35 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
         return selectedItem
     }
 
+    fun setFont(assetFont: String): String {
+        this.assetFont = assetFont
+        return assetFont
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         context = parent.context
         val view = when (navigationStyle) {
-            0 -> DrawerUiDefault(colorPrimary).createView(AnkoContext.create(context, parent))
-            1 -> DrawerUiMaterial(colorPrimary).createView(AnkoContext.create(context, parent))
-            else -> DrawerUiKeep(colorPrimary).createView(AnkoContext.create(context, parent))
+            0 -> {
+                if (assetFont != "") {
+                    DrawerUiDefaultFont(colorPrimary, assetFont).createView(AnkoContext.create(context, parent))
+                } else {
+                    DrawerUiDefault(colorPrimary).createView(AnkoContext.create(context, parent))
+                }
+            }
+            1 -> {
+                if (assetFont != "") {
+                    DrawerUiMaterialFont(colorPrimary, assetFont).createView(AnkoContext.create(context, parent))
+                } else {
+                    DrawerUiMaterial(colorPrimary).createView(AnkoContext.create(context, parent))
+                }
+            }
+            else -> {
+                if (assetFont != "") {
+                    DrawerUiKeepFont(colorPrimary, assetFont).createView(AnkoContext.create(context, parent))
+                } else {
+                    DrawerUiKeep(colorPrimary).createView(AnkoContext.create(context, parent))
+                }
+            }
         }
 
         return Holder(view)

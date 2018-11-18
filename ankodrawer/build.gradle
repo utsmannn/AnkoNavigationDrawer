@@ -19,7 +19,7 @@ ext {
 
     publishedGroupId = 'com.utsman.kucingapes'
     artifact = 'ankodrawer'
-    libraryVersion = '0.2.1'
+    libraryVersion = '0.2.3'
 
     libraryDescription = 'Easy implementation navigation drawer with styles in Anko'
     siteUrl = 'https://github.com/kucingapes/AnkoNavigationDrawer'
@@ -40,7 +40,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
-        versionName "0.2.1"
+        versionName "0.2.3"
 
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

@@ -22,16 +22,6 @@ object AnDrawerUtils {
     const val FOREGROUND = 0
     const val BACKGROUND = 1
 
-
-    fun setLightStatusBar(view: View, activity: Activity) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            var flags = view.systemUiVisibility
-            flags = flags or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-            view.systemUiVisibility = flags
-            activity.window.statusBarColor = Color.WHITE
-        }
-    }
-
     fun materialText(textView: TextView) {
         textView.apply {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

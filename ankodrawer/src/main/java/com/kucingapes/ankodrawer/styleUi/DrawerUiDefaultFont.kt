@@ -1,7 +1,7 @@
 /*
- * DrawerUiDefault.kt on AnkoNavigationDrawer
+ * DrawerUiDefaultFont.kt on AnkoNavigationDrawer
  * Developed by Muhammad Utsman
- * Last modified 11/14/18 7:01 AM
+ * Last modified 11/17/18 4:09 AM
  * Copyright (c) 2018 kucingapes
  */
 
@@ -19,7 +19,7 @@ import com.kucingapes.ankodrawer.R
 import org.jetbrains.anko.*
 import org.jetbrains.anko.cardview.v7.cardView
 
-class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
+class DrawerUiDefaultFont(private val colorTheme: Int, private var assetFont: String) : AnkoComponent<ViewGroup> {
     override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
         relativeLayout {
             cardView {
@@ -50,7 +50,7 @@ class DrawerUiDefault(private val colorTheme: Int) : AnkoComponent<ViewGroup> {
                         id = R.id.drawer_item_text
                         AnDrawerUtils.materialText(this)
                         typeface = Typeface.DEFAULT_BOLD
-                        //typeface = Typeface.createFromAsset(assets, "")
+                        typeface = Typeface.createFromAsset(assets, assetFont)
                         textColorResource = colorTheme
                         maxLines = 1
                         ellipsize = TextUtils.TruncateAt.END

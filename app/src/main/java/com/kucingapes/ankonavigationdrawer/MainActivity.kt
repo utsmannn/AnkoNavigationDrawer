@@ -44,12 +44,14 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
         super.onCreate(savedInstanceState)
 
         val drawer = AnDrawer(this, R.color.customColor)
-        frameLayout { anDrawerLayoutWithToolbar(drawer) }
+        frameLayout { anDrawerLayoutWithToolbar(drawer, drawerStatusBarColor = R.color.colorPrimary) }
         //frameLayout { anDrawerLayout(drawer) }
         AnDrawerInit.setupMainView(this, MainUi())
-
-
-        Picasso.get()
+        AnDrawerInit.setLightStatusBar(activity = this)
+        AnDrawerInit.customToolbar(this, find(R.id.toolbar), R.drawable.ic_custom_icon)
+        drawer.setFont("fonts/GoogleSans-Medium.ttf")
+        drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
+        /*Picasso.get()
             .load(R.drawable.cat)
             .transform(CropCircleTransformation())
             .into(object : Target {
@@ -59,17 +61,17 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
 
                 override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
                     val drawable = BitmapDrawable(resources, Bitmap.createScaledBitmap(bitmap, dip(30), dip(30), true))
-                    AnDrawerInit.customToolbar(this@MainActivity, this@MainActivity.find(R.id.toolbar), drawable)
+                    AnDrawerInit.customToolbar(this@MainActivity, find(R.id.toolbar), drawable)
 
                 }
 
-            })
+            })*/
 
 
         AnDrawerInit.setupHeader(this, HeaderUi())
 
 
-        drawer.setNavigationStyle(AnDrawerView.STYLE.GOOGLE_KEEP)
+        //drawer.setNavigationStyle(AnDrawerView.STYLE.DEFAULT)
 
         drawer.addItems().apply {
             val item1 = AnDrawerItem("Item 1")
@@ -116,8 +118,8 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
     class MainUi : AnkoComponent<ViewGroup> {
         override fun createView(ui: AnkoContext<ViewGroup>): View = with(ui) {
             coordinatorLayout {
-                themedToolbar(R.style.ThemeOverlay_AppCompat_Dark) {
-                    backgroundColorResource = R.color.colorPrimary
+                themedToolbar(R.style.ThemeOverlay_AppCompat_ActionBar) {
+                    //backgroundColorResource = R.color.customColor
                     id = R.id.toolbar
                     title = context.getString(R.string.app_name)
                 }.lparams(matchParent, dimenAttr(R.attr.actionBarSize))
@@ -135,7 +137,6 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
                 lparams(matchParent, dip(200))
                 backgroundColorResource = R.color.colorPrimary
                 textView("CUSTOM HEADER") {
-                    textColorResource = android.R.color.white
                     typeface = Typeface.DEFAULT_BOLD
                     textSize = 20f
                 }.lparams { centerInParent() }
