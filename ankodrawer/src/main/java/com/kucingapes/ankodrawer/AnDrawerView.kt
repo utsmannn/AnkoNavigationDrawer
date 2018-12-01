@@ -50,6 +50,8 @@ object AnDrawerView {
         }
     }
 
+
+
     @ColorInt
     fun getThemeColor(
         context: Context,
@@ -80,6 +82,7 @@ object AnDrawerView {
                         id = R.id.header_navigation
                     }.lparams(matchParent, wrapContent)
                     view {
+                        id = R.id.drawerStatusBar
                         backgroundColor = Color.parseColor("#20000000")
                     }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
                 }
@@ -115,6 +118,7 @@ object AnDrawerView {
                         id = R.id.header_navigation
                     }.lparams(matchParent, wrapContent)
                     view {
+                        id = R.id.drawerStatusBar
                         if (drawerStatusBarColor != null) {
                             backgroundColorResource = drawerStatusBarColor
                         } else {
@@ -131,6 +135,110 @@ object AnDrawerView {
             }
         }.lparams(matchParent, matchParent) {
             gravity = Gravity.START
+        }
+    }
+
+    /* support gravity */
+
+    fun ViewManager.anDrawerLayout(anDrawer: AnDrawer, gravityDrawer: Int) = drawerLayout {
+        id = R.id.drawer_layout
+        frameLayout {
+            id = R.id.main_container
+        }.lparams(matchParent, matchParent)
+        navigationView {
+            id = R.id.navigation_view
+            verticalLayout {
+                frameLayout {
+                    id = R.id.header_navigation
+                }.lparams(matchParent, wrapContent)
+                view {
+                    id = R.id.drawerStatusBar
+                }.lparams(matchParent, dip(0))
+                recyclerView {
+                    lparams(matchParent, matchParent)
+                    id = R.id.drawer_item_list
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = anDrawer
+                }
+            }
+        }.lparams(matchParent, matchParent) {
+            gravity = gravityDrawer
+        }
+    }
+
+    fun ViewManager.anDrawerLayoutWithToolbar(anDrawer: AnDrawer, gravityDrawer: Int) = drawerLayout {
+        id = R.id.drawer_layout
+        verticalLayout {
+            view {
+                backgroundColor = getThemeColor(context, R.attr.colorPrimaryDark)
+            }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
+
+            frameLayout {
+                id = R.id.main_container
+            }.lparams(matchParent, matchParent)
+        }
+
+        navigationView {
+            id = R.id.navigation_view
+            verticalLayout {
+                relativeLayout {
+                    frameLayout {
+                        id = R.id.header_navigation
+                    }.lparams(matchParent, wrapContent)
+                    view {
+                        id = R.id.drawerStatusBar
+                        backgroundColor = Color.parseColor("#20000000")
+                    }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
+                }
+                recyclerView {
+                    lparams(matchParent, matchParent)
+                    id = R.id.drawer_item_list
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = anDrawer
+                }
+            }
+        }.lparams(matchParent, matchParent) {
+            gravity = gravityDrawer
+        }
+    }
+
+    fun ViewManager.anDrawerLayoutWithToolbar(anDrawer: AnDrawer, drawerStatusBarColor: Int?, gravityDrawer: Int) = drawerLayout {
+        id = R.id.drawer_layout
+        verticalLayout {
+            view {
+                backgroundColor = getThemeColor(context, R.attr.colorPrimaryDark)
+            }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
+
+            frameLayout {
+                id = R.id.main_container
+            }.lparams(matchParent, matchParent)
+        }
+
+        navigationView {
+            id = R.id.navigation_view
+            verticalLayout {
+                relativeLayout {
+                    frameLayout {
+                        id = R.id.header_navigation
+                    }.lparams(matchParent, wrapContent)
+                    view {
+                        id = R.id.drawerStatusBar
+                        if (drawerStatusBarColor != null) {
+                            backgroundColorResource = drawerStatusBarColor
+                        } else {
+                            backgroundColor = Color.parseColor("#20000000")
+                        }
+                    }.lparams(matchParent, AnDrawerInit.anGetStatusBarHeight(context))
+                }
+                recyclerView {
+                    lparams(matchParent, matchParent)
+                    id = R.id.drawer_item_list
+                    layoutManager = LinearLayoutManager(context)
+                    adapter = anDrawer
+                }
+            }
+        }.lparams(matchParent, matchParent) {
+            gravity = gravityDrawer
         }
     }
 }

@@ -11,4 +11,5 @@
     <item name="drawer_item_text" type="id"/>
     <item name="drawer_divider" type="id"/>
     <item name="an_status_bar" type="id"/>
+    <item name="drawerStatusBar" type="id"/>
 </resources>

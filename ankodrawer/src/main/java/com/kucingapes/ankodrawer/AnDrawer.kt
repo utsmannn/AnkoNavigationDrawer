@@ -22,6 +22,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import org.jetbrains.anko.*
 import android.support.v7.app.AppCompatDelegate
+import android.support.v7.widget.Toolbar
+import android.view.WindowManager
 import com.kucingapes.ankodrawer.styleUi.*
 
 class AnDrawer(private val listener: AnDrawerClickListener, private val colorPrimary: Int) :
@@ -33,6 +35,7 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
     private var selectedItem = 1
     private var navigationStyle = 0
     private var assetFont = ""
+    private var drawerStatusBar = 0
 
     fun setNavigationStyle(navigationStyle: Int): Int {
         this.navigationStyle = navigationStyle
@@ -51,6 +54,11 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
     fun setFont(assetFont: String): String {
         this.assetFont = assetFont
         return assetFont
+    }
+
+    fun setDrawerStatusBar(drawerStatusBar: Int): Int {
+        this.drawerStatusBar = drawerStatusBar
+        return drawerStatusBar
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -108,6 +116,12 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
         textItem.text = item.title
 
         val drawerLayout = (context as AppCompatActivity).find<DrawerLayout>(R.id.drawer_layout)
+        val statusBar = (context as AppCompatActivity).find(R.id.drawerStatusBar) as View?
+
+
+        if (drawerStatusBar != 0) {
+            statusBar?.backgroundColorResource = drawerStatusBar
+        }
         containerItem.setOnClickListener {
             if (!item.divider && item.focus) {
                 selectedItem = item.identifier
@@ -177,11 +191,18 @@ class AnDrawer(private val listener: AnDrawerClickListener, private val colorPri
 
     class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView)
 
-    fun visibility(view: View, visibility: Int) {
+    private fun visibility(view: View, visibility: Int) {
         when (visibility) {
             GONE -> view.visibility = View.GONE
             VISIBLE -> view.visibility = View.VISIBLE
         }
+    }
+
+    private fun hideStatusbar(context: AppCompatActivity) {
+        context.window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
     }
 
     companion object {

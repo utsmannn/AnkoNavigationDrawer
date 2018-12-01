@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import com.kucingapes.ankodrawer.*
@@ -44,13 +45,17 @@ class MainActivity : AppCompatActivity(), AnDrawerClickListener {
         super.onCreate(savedInstanceState)
 
         val drawer = AnDrawer(this, R.color.customColor)
-        frameLayout { anDrawerLayoutWithToolbar(drawer, drawerStatusBarColor = R.color.colorPrimary) }
-        //frameLayout { anDrawerLayout(drawer) }
+        //frameLayout { anDrawerLayoutWithToolbar(drawer) }
+        frameLayout { anDrawerLayout(drawer, Gravity.END) }
         AnDrawerInit.setupMainView(this, MainUi())
-        AnDrawerInit.setLightStatusBar(activity = this)
-        AnDrawerInit.customToolbar(this, find(R.id.toolbar), R.drawable.ic_custom_icon)
+        //AnDrawerInit.setLightStatusBar(activity = this)
+        //AnDrawerInit.customToolbar(this, find(R.id.toolbar), R.drawable.ic_custom_icon)
+
+
         drawer.setFont("fonts/GoogleSans-Medium.ttf")
         drawer.setNavigationStyle(AnDrawerView.STYLE.NEW_MATERIAL)
+        drawer.setDrawerStatusBar(R.color.colorPrimary)
+
         /*Picasso.get()
             .load(R.drawable.cat)
             .transform(CropCircleTransformation())
